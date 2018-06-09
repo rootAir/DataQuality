@@ -1,0 +1,28 @@
+version: '2.1'
+services:
+    postgres:
+        image: postgres:9.6
+        environment:
+            - POSTGRES_USER=qualidade
+            - POSTGRES_PASSWORD=qualidade
+            - POSTGRES_DB=qualidade
+            - SET_CONTAINER_TIMEZONE=true
+            - CONTAINER_TIMEZONE=America/
+            # Uncomment these lines to persist data on the local filesystem.
+            # - PGDATA=/var/lib/postgresql/data/pgdata
+        volumes:
+            - "./data:/var/lib/postgresql/data"
+        ports:
+            - "5432:5432"
+
+    portainer:
+        image: portainer/portainer
+        command: -H unix:///var/run/docker.sock
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer_data:/data
+        ports:
+            - "9000:9000"
+
+volumes:
+  portainer_data:
